@@ -9,12 +9,13 @@ extends Node3D
 @export var sensitivity: float = 0.005
 @export_range(0.0, 0.1, 0.005, "or_greater", "suffix:s") var drag_smoothing: float = 0.02  ## 0 locks to the cursor, higher makes it smoother but laggier. Don't set this too high.
 @export_range(0.0, 20.0, 0.1, "or_greater") var inertia_damping: float = 10.0
+@export_range(0.0, 50.0, 0.5, "or_greater") var drag_brake: float = 20.0  # extra deadening when a drag stops or reverses the carried spin
 @export_range(0.0, 50.0, 0.1, "or_greater") var pivot_follow_speed: float = 8.0
 
 @export_group("Flick")
 @export_range(0.0, 0.3, 0.005, "or_greater", "suffix:s") var flick_window: float = 0.07  ## seconds of recent motion the flick speed is read from
-@export_range(0.0, 10.0, 0.05, "or_greater") var min_flick_speed: float = 0.6  ## rad/sec. A slower coast than this is treated as noise
-@export_range(0.0, 50.0, 0.5, "or_greater", "suffix:px") var min_drag_pixels: float = 8.0  ## must travel at least this far to count as a flick
+@export_range(0.0, 10.0, 0.05, "or_greater") var min_flick_speed: float = 0.3  ## rad/sec. A slower coast than this is treated as noise
+@export_range(0.0, 50.0, 0.5, "or_greater", "suffix:px") var min_drag_pixels: float = 5.0  ## must travel at least this far to count as a flick
 
 @export_group("Limits")
 @export_range(-90.0, 0.0, 0.1, "radians_as_degrees") var min_pitch: float = -PI / 2.0
@@ -57,12 +58,15 @@ func _process(delta: float) -> void:
 	global_position = global_position.lerp(pivot, 1.0 - exp(-pivot_follow_speed * delta))
 
 	if orbiting:
-		# orbit held: ease the drag toward the cursor and sample it for the flick
+		# ease the drag, brake the carried momentum by how much the drag fights it,
+		# then sample for the flick
 		_apply_drag(delta)
+		_brake_carry(delta)
 		_record_sample(delta)
 	elif _was_orbiting:
-		# stop sampling and trigger velocity because orbiting was just released
-		angular_velocity = _flick_velocity()
+		# add the new flick onto the momentum that carried through, so a series of
+		# flicks builds up instead of each drag wiping out the last one's speed
+		angular_velocity = _flick_velocity() + angular_velocity
 		_drag_delta = Vector2.ZERO
 		_sample_times.clear()
 		_sample_pos.clear()
@@ -93,6 +97,15 @@ func _apply_drag(delta: float) -> void:
 		_orbit_rotation = _orbit_rotation.lerp(_orbit_target, w)
 	else:
 		_orbit_rotation = _orbit_target
+
+func _brake_carry(delta: float) -> void:
+	# Keeps some of the angular velocity when repeatedly
+	# orbiting in the same direction
+	var feed := 0.0
+	if _drag_delta != Vector2.ZERO and angular_velocity != Vector2.ZERO:
+		feed = _drag_delta.normalized().dot(angular_velocity.normalized())
+	var brake := drag_brake * (1.0 - maxf(feed, 0.0))
+	angular_velocity *= exp(-brake * delta)
 
 func _update_pivot() -> void:
 	# this changes the pivot to the selected tile
@@ -189,7 +202,6 @@ func _input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_MIDDLE:
 		if event.pressed:
 			orbiting = true
-			angular_velocity = Vector2.ZERO
 			_orbit_target = _orbit_rotation
 			_drag_delta = Vector2.ZERO
 			_drag_pos = Vector2.ZERO
