@@ -6,7 +6,7 @@ extends Node3D
 var orbiting: bool = false
 var acceleration: Vector3 = Vector3.ZERO
 var velocity: Vector3 = Vector3.ZERO
-var friction: float = 0.99
+var friction: float = 0.96
 
 func _ready() -> void:
 	camera.position = Vector3(0,0,15)

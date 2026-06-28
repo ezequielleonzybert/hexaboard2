@@ -11,6 +11,7 @@ void vertex() {
 }
 
 void fragment() {
+	//vec3 variation = vec3(rand)
 	if (int(instance_id) == tile_hovered) {
         ALBEDO = color_highlight;
     } else {
