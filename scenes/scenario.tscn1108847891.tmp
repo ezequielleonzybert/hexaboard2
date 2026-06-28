@@ -1,0 +1,33 @@
+[gd_scene format=3 uid="uid://b8s2f75l0i0pw"]
+
+[ext_resource type="Script" uid="uid://qjxs0fm6r41w" path="res://scripts/board.gd" id="1_ih08i"]
+[ext_resource type="Script" uid="uid://upvh4hx4eoeu" path="res://scripts/camera.gd" id="2_w4sjf"]
+
+[sub_resource type="Environment" id="Environment_w4sjf"]
+background_color = Color(0.1584723, 0.15847233, 0.15847224, 1)
+glow_intensity = 0.0
+glow_bloom = 1.0
+fog_light_color = Color(0.91722053, 0.2874976, 0.42025846, 1)
+fog_light_energy = 0.01
+
+[node name="Scenario" type="Node3D" unique_id=2096456128]
+
+[node name="Board" type="StaticBody3D" parent="." unique_id=173608695]
+script = ExtResource("1_ih08i")
+board_radius = 10
+max_height = 2.645
+frequency = 0.056
+
+[node name="CameraContainer" type="Node3D" parent="." unique_id=2024545900]
+script = ExtResource("2_w4sjf")
+
+[node name="Camera" type="Camera3D" parent="CameraContainer" unique_id=755478695]
+transform = Transform3D(1, 0, 0, 0, 0.8486584, 0.52894133, 0, -0.52894133, 0.8486584, 0, 8.709414, 27.77042)
+
+[node name="OmniLight3D" type="OmniLight3D" parent="CameraContainer" unique_id=1227965837]
+transform = Transform3D(0.89271754, 0.29322517, 0.3421614, -0.4506167, 0.5809089, 0.67785656, 0, -0.75931805, 0.6507197, -1.4296355, 9.968379, 5.1836195)
+light_energy = 6.228
+omni_range = 36.087
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1845851811]
+environment = SubResource("Environment_w4sjf")

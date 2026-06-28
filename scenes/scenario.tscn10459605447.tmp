@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://b8s2f75l0i0pw"]
+
+[ext_resource type="Script" uid="uid://qjxs0fm6r41w" path="res://scripts/board.gd" id="1_ih08i"]
+[ext_resource type="Script" uid="uid://upvh4hx4eoeu" path="res://scripts/camera.gd" id="2_w4sjf"]
+
+[node name="Scenario" type="Node3D" unique_id=2096456128]
+
+[node name="Board" type="Node3D" parent="." unique_id=1491352755]
+script = ExtResource("1_ih08i")
+frequency = 2.915
+
+[node name="CameraContainer" type="Node3D" parent="." unique_id=2024545900]
+script = ExtResource("2_w4sjf")
+
+[node name="Camera" type="Camera3D" parent="CameraContainer" unique_id=755478695]
+transform = Transform3D(1, 0, 0, 0, 0.8486584, 0.52894133, 0, -0.52894133, 0.8486584, 0, 4.466844, 25.549467)
+
+[node name="OmniLight3D" type="DirectionalLight3D" parent="CameraContainer" unique_id=1720606758]
+transform = Transform3D(0.89271754, 0.29322517, 0.3421614, -0.4506167, 0.5809089, 0.67785656, 0, -0.75931805, 0.6507197, 0, 2.6910102, 0.97233343)

@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://b3t00ghnudb5v"]
+
+[ext_resource type="PackedScene" uid="uid://b8s2f75l0i0pw" path="res://scenes/scenario.tscn" id="1_ig7tw"]
+[ext_resource type="Script" uid="uid://ca34prs8avmf8" path="res://scripts/debug.gd" id="2_0wfyh"]
+
+[node name="Main" type="Node" unique_id=1720960355]
+
+[node name="Scenario" parent="." unique_id=2096456128 instance=ExtResource("1_ig7tw")]
+
+[node name="Debug" type="Label" parent="." unique_id=359286232]
+offset_right = 40.0
+offset_bottom = 23.0
+script = ExtResource("2_0wfyh")

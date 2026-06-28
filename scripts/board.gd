@@ -1,0 +1,115 @@
+#@tool
+extends Node3D
+
+const SQRT3: float = 1.732050807568877
+const TILE_RADIUS: float = 0.5
+
+@export var radius: int = 30
+@export var max_height: float = 1.0
+@export var frequency: float = 0.1
+
+var mmi = MultiMeshInstance3D
+var colliders: Array[CollisionPolygon3D]
+var _material: ShaderMaterial
+var body: StaticBody3D
+
+var tiles: Array[Tile]
+
+func _ready() -> void:
+	var mm = get_multimesh()
+	mmi = MultiMeshInstance3D.new()
+	mmi.multimesh = mm
+	add_child(mmi)
+	
+	body = StaticBody3D.new()
+	for collider in colliders:
+		body.add_child(collider)
+	add_child(body)
+
+
+func _process(delta: float) -> void:
+	var i = Inputs.tile_hovered
+	var pi = Inputs.previous_tile_hovered
+	if i != pi:
+		mmi.multimesh.mesh.material.set_shader_parameter("tile_hovered", i)
+
+
+func get_multimesh() -> MultiMesh:
+	var mm = MultiMesh.new()
+	mm.transform_format = MultiMesh.TRANSFORM_3D
+	mm.mesh = get_mesh()
+	
+	set_tiles(mm)
+	
+	return mm
+	
+	
+func get_mesh() -> CylinderMesh:
+	var mesh = CylinderMesh.new()
+	mesh.rings = 0
+	mesh.radial_segments = 6
+	mesh.top_radius = TILE_RADIUS
+	mesh.bottom_radius = TILE_RADIUS
+	_material = get_material()
+	mesh.material = _material
+	return mesh
+	
+	
+func get_material() -> ShaderMaterial:
+	_material = ShaderMaterial.new()
+	_material.shader = load("res://shaders/flat.gdshader")
+	return _material
+
+
+func get_tiles_positions() -> Array[Vector3]:
+	var positions: Array[Vector3]
+	
+	for q in range(-radius, radius + 1):
+		var r1 = max(-radius, -q - radius)
+		var r2 = min(radius,  -q + radius)
+		for r in range(r1, r2 + 1):
+			var x = TILE_RADIUS * SQRT3 * (q + r / 2.0)
+			var y = TILE_RADIUS * 1.5 * r
+			positions.append(Vector3(x, 0.0, y))
+	
+	return positions
+
+
+func set_tiles(mm:MultiMesh) -> void:
+	var tiles_positions = get_tiles_positions()
+	mm.instance_count = tiles_positions.size()
+	var noise = get_noise()
+	
+	for i in range (tiles_positions.size()):
+		var pos = tiles_positions[i]
+		var height = (noise.get_noise_2d(pos.x, pos.z) + 1.0) * 0.5 
+		height *= max_height
+		
+		var trans = Transform3D()
+		trans = trans.scaled(Vector3(1.0, height, 1.0))
+		trans = trans.translated(Vector3(pos.x, height, pos.z))
+		mm.set_instance_transform(i, trans)
+		
+		tiles.append(Tile.new(pos,height))
+		
+		colliders.append(get_tile_collider(height, pos))
+
+
+func get_tile_collider(height:float, pos:Vector3) -> CollisionPolygon3D:
+	var collider = CollisionPolygon3D.new()
+	var corners: PackedVector2Array
+	for i in range(6):
+		corners.insert(i, Vector2(TILE_RADIUS, 0).rotated(i*PI/3.0))
+	collider.set_polygon(corners)
+	collider.set_depth(height*2)
+	collider.position = Vector3(pos.x, height, pos.z)
+	collider.rotate_x(PI/2)
+	collider.rotate_y(PI/6)
+	return collider
+
+
+func get_noise() -> FastNoiseLite:
+	var noise = FastNoiseLite.new()
+	noise.noise_type = FastNoiseLite.TYPE_SIMPLEX
+	noise.frequency = frequency
+	return noise
