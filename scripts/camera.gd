@@ -6,19 +6,19 @@ extends Node3D
 var orbiting: bool = false
 var acceleration: Vector3 = Vector3.ZERO
 var velocity: Vector3 = Vector3.ZERO
-var friction: float = 0.997
+var friction: float = 0.99
 
 func _ready() -> void:
 	camera.position = Vector3(0,0,15)
 	camera.look_at(board.tiles[board.tiles.size()/2].position)
 
-func _process(delta: float) -> void:
+func _physics_process(delta: float) -> void:
 	if (orbiting 
 		and Inputs.mouse_moving
 		#and Inputs.mouse_velocity.length_squared() > 0.1
 		):
-		acceleration.x = Inputs.mouse_velocity.x / 10000 * delta
-		acceleration.y =Inputs.mouse_velocity.y / 10000 * delta
+		acceleration.x = Inputs.mouse_velocity.x / 5000 * delta
+		acceleration.y =Inputs.mouse_velocity.y / 5000 * delta
 	else:
 		acceleration.x = 0.0
 		acceleration.y = 0.0

@@ -31,13 +31,17 @@ func _physics_process(delta: float):
 	else:
 		previous_tile_hovered = tile_hovered
 		tile_hovered = -1
-
-func _process(delta: float) -> void:
+	
 	mouse_position_prev = mouse_position
 	mouse_position = get_viewport().get_mouse_position()
 	
 	mouse_moving = true if mouse_position != mouse_position_prev else false
+
+#func _process(delta: float) -> void:
+	#mouse_position_prev = mouse_position
+	#mouse_position = get_viewport().get_mouse_position()
 	
+	#mouse_moving = true if mouse_position != mouse_position_prev else false
 	
 func _input(event):
 	if (

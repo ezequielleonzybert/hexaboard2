@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://brnw4vf54cavu"
-path="res://.godot/imported/Hexaboard2.icon.png-987fd28de1aa7c1c130f979c5513be9f.ctex"
+path="res://.godot/imported/Hexaboard2.icon.png-ff3af357d72a2f919e48b8cbf4f73830.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://build/Hexaboard2.icon.png"
-dest_files=["res://.godot/imported/Hexaboard2.icon.png-987fd28de1aa7c1c130f979c5513be9f.ctex"]
+source_file="res://docs/Hexaboard2.icon.png"
+dest_files=["res://.godot/imported/Hexaboard2.icon.png-ff3af357d72a2f919e48b8cbf4f73830.ctex"]
 
 [params]
 
