@@ -20,7 +20,7 @@ extends Node3D
 @export_group("Limits")
 @export_range(-90.0, 0.0, 0.1, "radians_as_degrees") var min_pitch: float = -PI / 2.0
 @export_range(-90.0, 0.0, 0.1, "radians_as_degrees") var max_pitch: float = -PI / 8.0
-@export_range(-90.0, 0.0, 0.1, "radians_as_degrees") var initial_pitch: float = -PI / 4.0
+@export_range(-90.0, 0.0, 0.1, "radians_as_degrees") var initial_pitch: float = -PI / 8.0
 
 const MIN_FLICK_SAMPLES := 3  # keep at least 3, fewer than this and we can't fit a parabola
 
@@ -44,6 +44,9 @@ var _orbit_rotation: Vector2 = Vector2.ZERO
 var _sample_times: PackedFloat32Array = PackedFloat32Array()
 var _sample_pos: PackedVector2Array = PackedVector2Array()
 var _pivot_tile: int = -1
+
+var zoom = 40.0
+var target_zoom = zoom
 
 func _ready() -> void:
 	camera.position = Vector3(0.0, 0.0, 15.0)
@@ -80,6 +83,9 @@ func _process(delta: float) -> void:
 	# We have to track our own rotation or it'll spin out of control
 	rotation = Vector3(_orbit_rotation.x, _orbit_rotation.y, 0.0)
 	_was_orbiting = orbiting
+	
+	zoom = lerp(zoom, target_zoom, 10.0 * delta)
+	camera.position = Vector3(0.0, 0.0, zoom)
 
 func _orbit(amount: Vector2) -> void:
 	_orbit_rotation.y -= amount.x
@@ -199,7 +205,7 @@ func _two_point_velocity() -> Vector2:
 	return (_sample_pos[n - 1] - _sample_pos[n - 2]) / dt * sensitivity
 
 func _input(event: InputEvent) -> void:
-	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_MIDDLE:
+	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
 		if event.pressed:
 			orbiting = true
 			_orbit_target = _orbit_rotation
@@ -214,3 +220,10 @@ func _input(event: InputEvent) -> void:
 		# screen_relative is raw pixels. plain relative gets scaled by the window
 		# stretch, so the orbit runs away once the window isn't the base size.
 		_drag_delta += event.screen_relative
+		
+	elif event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
+		target_zoom += 1.5
+	elif event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_WHEEL_UP:
+		target_zoom -= 1.5
+	
+	target_zoom = clamp(target_zoom, 10.0, 45.0)

@@ -30,7 +30,10 @@ func _physics_process(_delta: float):
 func _input(event):
 	if (
 		event is InputEventMouseButton
-		and event.pressed
-		and tile_hovered != -1
-		and event.button_index == MOUSE_BUTTON_RIGHT):
+		and event.double_click
+		#event is InputEventMouseButton
+		#and event.pressed
+		#and tile_hovered != -1
+		#and event.button_index == MOUSE_BUTTON_RIGHT
+		):
 		tile_selected = tile_hovered
