@@ -49,7 +49,7 @@ var zoom = 40.0
 var target_zoom = zoom
 
 func _ready() -> void:
-	camera.position = Vector3(0.0, 0.0, 15.0)
+	#camera.position = Vector3(0.0, 0.0, 5.0)
 	camera.rotation = Vector3.ZERO
 	_orbit_rotation = Vector2(initial_pitch, 0.0)
 	rotation = Vector3(_orbit_rotation.x, _orbit_rotation.y, 0.0)
@@ -205,7 +205,7 @@ func _two_point_velocity() -> Vector2:
 	return (_sample_pos[n - 1] - _sample_pos[n - 2]) / dt * sensitivity
 
 func _input(event: InputEvent) -> void:
-	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
+	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_MIDDLE:
 		if event.pressed:
 			orbiting = true
 			_orbit_target = _orbit_rotation
