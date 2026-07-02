@@ -5,7 +5,7 @@ const SQRT3: float = 1.732050807568877
 const TILE_RADIUS: float = 0.5
 
 #region Exports
-@export_group("Geomtry")
+@export_group("Geometry")
 @export var radius: int = 30
 @export var max_height: float = 1.0
 @export var frequency: float = 0.1
@@ -14,7 +14,7 @@ const TILE_RADIUS: float = 0.5
 
 @export_group("Colors")
 @export var color_grass:= Color(.4,.7,.3)
-@export var color_stone:= Color(.5,.4,.3)
+@export var color_stone:= Color(.9,.8,.6)
 @export var color_water:= Color(.5,.7,1.0)
 #endregion
 
@@ -76,21 +76,11 @@ func set_tiles(mm:MultiMesh) -> void:
 	var color: Color
 	
 	for i in range (tiles_positions.size()):
-		var tile = Tile.new()
-		tile.position = tiles_positions[i]
-		tile.height = (noise.get_noise_2d(tile.position.x, tile.position.z) + 1.0) * 0.5 
-		#var pos = tiles_positions[i]
-		#var height = (noise.get_noise_2d(pos.x, pos.z) + 1.0) * 0.5 
+		var pos = tiles_positions[i]
+		var h = (noise.get_noise_2d(pos.x, pos.z) + 1.0) * 0.5
+		var tile = Tile.new(pos, h)
 		
-		if tile.height < water_level:
-			tile.type = tile.Type.WATER
-			color = color_water
-		elif tile.height > stone_level:
-			tile.type = tile.Type.STONE
-			color = color_stone
-		else:
-			tile.type = tile.Type.GRASS
-			color = color_grass
+		set_tile_type(tile)
 		
 		tile.height *= max_height
 		
@@ -99,10 +89,9 @@ func set_tiles(mm:MultiMesh) -> void:
 		trans = trans.translated(Vector3(tile.position.x, tile.height, tile.position.z))
 		
 		mm.set_instance_transform(i, trans)
-		mm.set_instance_color(i, color)
+		mm.set_instance_color(i, tile.color)
 		
-		tiles.append(Tile.new(tile.position, tile.height))
-		
+		tiles.append(tile)
 		colliders.append(get_tile_collider(tile.height, tile.position))
 
 
@@ -141,7 +130,20 @@ func get_material() -> ShaderMaterial:
 
 func get_noise() -> FastNoiseLite:
 	var noise = FastNoiseLite.new()
-	noise.noise_type = FastNoiseLite.TYPE_SIMPLEX
+	noise.noise_type = FastNoiseLite.TYPE_SIMPLEX_SMOOTH
 	noise.frequency = frequency
 	noise.seed = randi()
 	return noise
+
+
+func set_tile_type(tile: Tile):
+	if tile.height < water_level:
+		tile.type = tile.Type.WATER
+		tile.color = color_water
+		tile.height = water_level
+	elif tile.height > stone_level:
+		tile.type = tile.Type.STONE
+		tile.color = color_stone
+	else:
+		tile.type = tile.Type.GRASS
+		tile.color = color_grass

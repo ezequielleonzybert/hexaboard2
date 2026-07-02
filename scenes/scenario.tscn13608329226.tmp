@@ -17,9 +17,8 @@ environment = SubResource("Environment_w4sjf")
 
 [node name="Board" type="Node3D" parent="." unique_id=627743461]
 script = ExtResource("1_ih08i")
-max_height = 3.895
+max_height = 2.645
 frequency = 0.056
-stone_level = 0.55
 
 [node name="OmniLight3D" type="OmniLight3D" parent="." unique_id=1227965837]
 transform = Transform3D(0.89271754, 0.29322517, 0.3421614, -0.4506167, 0.5809089, 0.67785656, 0, -0.75931805, 0.6507197, -1.43, 19.713, 5.184)

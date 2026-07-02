@@ -2,9 +2,6 @@ extends Node3D
 
 const RAY_LENGTH = 1000.0
 
-#@export var scenario: SubViewport
-#@export var board: Node3D
-#@export var camera: Camera3D
 @onready var board: Node3D = $"../Main/Scenario/Board"
 @onready var camera: Camera3D = $"../Main/Scenario/CameraArm/Camera"
 

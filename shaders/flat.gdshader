@@ -1,7 +1,5 @@
 shader_type spatial;
 
-const vec3 color_highlight = vec3(.9,1.0,.6);
-
 uniform int tile_hovered;
 varying flat int instance_id;
 varying vec3 color_base;
@@ -17,15 +15,14 @@ void vertex() {
 }
 
 void fragment() {
-	//vec3 variation = vec3(rand)
 	if (int(instance_id) == tile_hovered) {
-        ALBEDO = color_highlight;
+        ALBEDO = mix(color_base,vec3(1.0,1.0,1.0),0.1);
     } else {
 		float id = float(instance_id);
 		float variation = random(vec2(id, 0.0)) * 0.1 + .6;
         ALBEDO = color_base;
 		
-		if(distance(COLOR.rgb, vec3(.5,.7,1.0)) < 0.1 ){
+		if(distance(COLOR.rgb, vec3(.5,.7,1.0)) < 0.1 ){ //water
 			ROUGHNESS = 0.5;
 			SPECULAR = 0.7;
 		}

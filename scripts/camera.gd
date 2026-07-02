@@ -124,10 +124,13 @@ func _brake_carry(delta: float) -> void:
 
 func _update_pivot() -> void:
 	# this changes the pivot to the selected tile
+	
 	if Inputs.tile_selected != _pivot_tile:
 		_pivot_tile = Inputs.tile_selected
+		print(_pivot_tile)
 		if _pivot_tile != -1:
 			pivot = board.tiles[_pivot_tile].top_position
+			print(board.tiles[_pivot_tile])
 
 func _record_sample(dt: float) -> void:
 	_drag_clock += dt
