@@ -10,23 +10,25 @@ glow_bloom = 1.0
 fog_light_color = Color(0.91722053, 0.2874976, 0.42025846, 1)
 fog_light_energy = 0.01
 
-[node name="Scenario" type="Node3D" unique_id=2096456128]
+[node name="Scenario" type="Node3D" unique_id=2046134107]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1845851811]
 environment = SubResource("Environment_w4sjf")
 
 [node name="Board" type="Node3D" parent="." unique_id=627743461]
 script = ExtResource("1_ih08i")
-radius = 10
 max_height = 2.645
 frequency = 0.056
 
 [node name="OmniLight3D" type="OmniLight3D" parent="." unique_id=1227965837]
-transform = Transform3D(0.89271754, 0.29322517, 0.3421614, -0.4506167, 0.5809089, 0.67785656, 0, -0.75931805, 0.6507197, -1.4296355, 9.968379, 5.1836195)
-light_energy = 6.228
-omni_range = 102.4099
+transform = Transform3D(0.89271754, 0.29322517, 0.3421614, -0.4506167, 0.5809089, 0.67785656, 0, -0.75931805, 0.6507197, -1.43, 19.713, 5.184)
+light_energy = 16.0
+omni_range = 43.444
+omni_attenuation = 0.813
 
 [node name="CameraArm" type="Node3D" parent="." unique_id=1657242468]
 script = ExtResource("2_w4sjf")
+pivot_follow_speed = 4.0
 
 [node name="Camera" type="Camera3D" parent="CameraArm" unique_id=193727285]
+current = true

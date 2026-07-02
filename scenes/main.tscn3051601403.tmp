@@ -1,0 +1,31 @@
+[gd_scene format=3 uid="uid://b3t00ghnudb5v"]
+
+[ext_resource type="PackedScene" uid="uid://b8s2f75l0i0pw" path="res://scenes/scenario.tscn" id="1_ig7tw"]
+[ext_resource type="Script" uid="uid://ca34prs8avmf8" path="res://scripts/debug.gd" id="2_0wfyh"]
+[ext_resource type="Script" uid="uid://b84owtsvhll12" path="res://scripts/inputs.gd" id="3_sugp2"]
+
+[node name="Main" type="Node" unique_id=1720960355]
+
+[node name="ScenarioViewport" type="SubViewportContainer" parent="." unique_id=1155784499]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Scenario" parent="ScenarioViewport" unique_id=2096456128 instance=ExtResource("1_ig7tw")]
+handle_input_locally = false
+render_target_update_mode = 4
+
+[node name="Board" parent="ScenarioViewport/Scenario" index="1" unique_id=627743461]
+radius = null
+
+[node name="Debug" type="Label" parent="." unique_id=359286232]
+offset_right = 40.0
+offset_bottom = 23.0
+script = ExtResource("2_0wfyh")
+
+[node name="Inputs" type="Node" parent="." unique_id=2140793379 node_paths=PackedStringArray("scenario", "board", "camera")]
+script = ExtResource("3_sugp2")
+scenario = NodePath("../ScenarioViewport/Scenario")
+board = NodePath("../ScenarioViewport/Scenario/Board")
+camera = NodePath("../ScenarioViewport/Scenario/CameraArm/Camera")
+
+[editable path="ScenarioViewport/Scenario"]

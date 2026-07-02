@@ -7,7 +7,13 @@
 
 [node name="Scenario" parent="." unique_id=2096456128 instance=ExtResource("1_ig7tw")]
 
+[node name="Board" parent="Scenario" index="1" unique_id=627743461]
+stone_level = 0.7
+color_stone = Color(0.88343334, 0.7568425, 0.5311471, 1)
+
 [node name="Debug" type="Label" parent="." unique_id=359286232]
 offset_right = 40.0
 offset_bottom = 23.0
 script = ExtResource("2_0wfyh")
+
+[editable path="Scenario"]
