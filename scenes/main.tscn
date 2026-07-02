@@ -7,7 +7,12 @@
 
 [node name="Scenario" parent="." unique_id=2096456128 instance=ExtResource("1_ig7tw")]
 
+[node name="Board" parent="Scenario" index="1" unique_id=627743461]
+color_grass = Color(0.4, 0.7019608, 0.3019608, 1)
+
 [node name="Debug" type="Label" parent="." unique_id=359286232]
 offset_right = 40.0
 offset_bottom = 23.0
 script = ExtResource("2_0wfyh")
+
+[editable path="Scenario"]

@@ -1,8 +1,11 @@
 class_name Tile
 
+enum Type{GRASS, STONE, WATER}
+
 var top_position: Vector3
 var position: Vector3
 var height: float
+var type: Type
 
 func _init(_position:Vector3, _height:float):
 	position = _position

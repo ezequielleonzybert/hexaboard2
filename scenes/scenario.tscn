@@ -10,7 +10,7 @@ glow_bloom = 1.0
 fog_light_color = Color(0.91722053, 0.2874976, 0.42025846, 1)
 fog_light_energy = 0.01
 
-[node name="Scenario" type="Node3D" unique_id=2096456128]
+[node name="Scenario" type="Node3D" unique_id=2046134107]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1845851811]
 environment = SubResource("Environment_w4sjf")
@@ -31,3 +31,4 @@ script = ExtResource("2_w4sjf")
 pivot_follow_speed = 4.0
 
 [node name="Camera" type="Camera3D" parent="CameraArm" unique_id=193727285]
+current = true

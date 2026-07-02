@@ -2,6 +2,9 @@ extends Node3D
 
 const RAY_LENGTH = 1000.0
 
+#@export var scenario: SubViewport
+#@export var board: Node3D
+#@export var camera: Camera3D
 @onready var board: Node3D = $"../Main/Scenario/Board"
 @onready var camera: Camera3D = $"../Main/Scenario/CameraArm/Camera"
 
@@ -9,6 +12,7 @@ var tile_selected: int = -1
 var tile_hovered: int = -1
 var previous_tile_hovered: int = -1
 var zoom = 1
+
 
 func _physics_process(_delta: float):
 	var space_state = get_world_3d().direct_space_state
@@ -26,6 +30,7 @@ func _physics_process(_delta: float):
 		tile_hovered = result.shape
 	else:
 		tile_hovered = -1
+
 
 func _input(event):
 	if (
