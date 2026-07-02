@@ -5,18 +5,17 @@ const SQRT3: float = 1.732050807568877
 const TILE_RADIUS: float = 0.5
 
 #region Exports
-
 @export_group("Geomtry")
 @export var radius: int = 30
 @export var max_height: float = 1.0
 @export var frequency: float = 0.1
 @export_range(0.0,1.0) var water_level: float = 0.3
+@export_range(0.0,1.0) var stone_level: float = 0.6
 
 @export_group("Colors")
 @export var color_grass:= Color(.4,.7,.3)
-@export var color_stone:= Color(.6,.6,.6)
+@export var color_stone:= Color(.5,.4,.3)
 @export var color_water:= Color(.5,.7,1.0)
-
 #endregion
 
 #region Globals
@@ -77,27 +76,34 @@ func set_tiles(mm:MultiMesh) -> void:
 	var color: Color
 	
 	for i in range (tiles_positions.size()):
-		var pos = tiles_positions[i]
-		var height = (noise.get_noise_2d(pos.x, pos.z) + 1.0) * 0.5 
+		var tile = Tile.new()
+		tile.position = tiles_positions[i]
+		tile.height = (noise.get_noise_2d(tile.position.x, tile.position.z) + 1.0) * 0.5 
+		#var pos = tiles_positions[i]
+		#var height = (noise.get_noise_2d(pos.x, pos.z) + 1.0) * 0.5 
 		
-		if height < water_level:
-			height = water_level
+		if tile.height < water_level:
+			tile.type = tile.Type.WATER
 			color = color_water
+		elif tile.height > stone_level:
+			tile.type = tile.Type.STONE
+			color = color_stone
 		else:
+			tile.type = tile.Type.GRASS
 			color = color_grass
 		
-		height *= max_height
+		tile.height *= max_height
 		
 		var trans = Transform3D()
-		trans = trans.scaled(Vector3(1.0, height, 1.0))
-		trans = trans.translated(Vector3(pos.x, height, pos.z))
+		trans = trans.scaled(Vector3(1.0, tile.height, 1.0))
+		trans = trans.translated(Vector3(tile.position.x, tile.height, tile.position.z))
 		
 		mm.set_instance_transform(i, trans)
 		mm.set_instance_color(i, color)
 		
-		tiles.append(Tile.new(pos,height))
+		tiles.append(Tile.new(tile.position, tile.height))
 		
-		colliders.append(get_tile_collider(height, pos))
+		colliders.append(get_tile_collider(tile.height, tile.position))
 
 
 func get_tile_collider(height:float, pos:Vector3) -> CollisionPolygon3D:
@@ -137,4 +143,5 @@ func get_noise() -> FastNoiseLite:
 	var noise = FastNoiseLite.new()
 	noise.noise_type = FastNoiseLite.TYPE_SIMPLEX
 	noise.frequency = frequency
+	noise.seed = randi()
 	return noise

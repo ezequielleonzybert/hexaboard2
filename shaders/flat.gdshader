@@ -24,13 +24,13 @@ void fragment() {
 		float variation = random(vec2(id, 0.0)) * 0.1 + .6;
         ALBEDO = color_base;
 		
-		if(distance(COLOR.rgb, vec3(.4,.7,.3)) < 0.1 ){
-			ALBEDO *= variation;
-			ROUGHNESS = 1.0;
-		}
-		else{
+		if(distance(COLOR.rgb, vec3(.5,.7,1.0)) < 0.1 ){
 			ROUGHNESS = 0.5;
 			SPECULAR = 0.7;
+		}
+		else{
+			ALBEDO *= variation;
+			ROUGHNESS = 1.0;
 		}
     }	
 	NORMAL = normalize(cross(dFdy(VERTEX), dFdx(VERTEX)));

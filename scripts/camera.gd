@@ -3,6 +3,7 @@ extends Node3D
 @onready var board: Node3D = $"../Board"
 @onready var camera: Camera3D = $Camera
 
+#region Exports
 @export var rest_threshold: float = 0.0005
 
 @export_group("Orbit")
@@ -21,7 +22,9 @@ extends Node3D
 @export_range(-90.0, 0.0, 0.1, "radians_as_degrees") var min_pitch: float = -PI / 2.0
 @export_range(-90.0, 0.0, 0.1, "radians_as_degrees") var max_pitch: float = -PI / 16.0
 @export_range(-90.0, 0.0, 0.1, "radians_as_degrees") var initial_pitch: float = -PI / 8.0
+#endregion
 
+#region Parameters
 const MIN_FLICK_SAMPLES := 3  # keep at least 3, fewer than this and we can't fit a parabola
 
 var pivot: Vector3 = Vector3.ZERO
@@ -45,11 +48,17 @@ var _sample_times: PackedFloat32Array = PackedFloat32Array()
 var _sample_pos: PackedVector2Array = PackedVector2Array()
 var _pivot_tile: int = -1
 
-var zoom = 40.0
-var target_zoom = zoom
+var zoom: float
+var target_zoom: float
+var max_zoom: float
+var min_zoom: float
+#endregion
 
 func _ready() -> void:
-	#camera.position = Vector3(0.0, 0.0, 5.0)
+	zoom = board.radius + 10
+	target_zoom = zoom
+	max_zoom = zoom
+	min_zoom = 10.0
 	camera.rotation = Vector3.ZERO
 	_orbit_rotation = Vector2(initial_pitch, 0.0)
 	rotation = Vector3(_orbit_rotation.x, _orbit_rotation.y, 0.0)
@@ -226,4 +235,4 @@ func _input(event: InputEvent) -> void:
 	elif event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_WHEEL_UP:
 		target_zoom -= 1.5
 
-	target_zoom = clamp(target_zoom, 10.0, 45.0)
+	target_zoom = clamp(target_zoom, min_zoom, max_zoom)
