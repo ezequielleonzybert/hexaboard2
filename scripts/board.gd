@@ -39,6 +39,7 @@ func _ready() -> void:
 		body.add_child(collider)
 	add_child(body)
 
+
 @warning_ignore("unused_parameter")
 func _process(delta: float) -> void:
 	var i = Inputs.tile_hovered
@@ -77,12 +78,12 @@ func set_tiles(mm:MultiMesh) -> void:
 	
 	for i in range (tiles_positions.size()):
 		var pos = tiles_positions[i]
-		var h = (noise.get_noise_2d(pos.x, pos.z) + 1.0) * 0.5
+		var h = (noise.get_noise_2d(pos.x, pos.z) + 1.0) * 0.5 * max_height
 		var tile = Tile.new(pos, h)
 		
 		set_tile_type(tile)
 		
-		tile.height *= max_height
+		#tile.height *= max_height
 		
 		var trans = Transform3D()
 		trans = trans.scaled(Vector3(1.0, tile.height, 1.0))
@@ -137,11 +138,11 @@ func get_noise() -> FastNoiseLite:
 
 
 func set_tile_type(tile: Tile):
-	if tile.height < water_level:
+	if tile.height/max_height < water_level:
 		tile.type = tile.Type.WATER
 		tile.color = color_water
-		tile.height = water_level
-	elif tile.height > stone_level:
+		tile.height = water_level * max_height
+	elif tile.height/max_height > stone_level:
 		tile.type = tile.Type.STONE
 		tile.color = color_stone
 	else:

@@ -51,14 +51,13 @@ var _pivot_tile: int = -1
 var zoom: float
 var target_zoom: float
 var max_zoom: float
-var min_zoom: float
+var min_zoom: float = 5.0
 #endregion
 
 func _ready() -> void:
 	zoom = board.radius + 10
 	target_zoom = zoom
 	max_zoom = zoom
-	min_zoom = 10.0
 	camera.rotation = Vector3.ZERO
 	_orbit_rotation = Vector2(initial_pitch, 0.0)
 	rotation = Vector3(_orbit_rotation.x, _orbit_rotation.y, 0.0)
@@ -127,10 +126,8 @@ func _update_pivot() -> void:
 	
 	if Inputs.tile_selected != _pivot_tile:
 		_pivot_tile = Inputs.tile_selected
-		print(_pivot_tile)
 		if _pivot_tile != -1:
 			pivot = board.tiles[_pivot_tile].top_position
-			print(board.tiles[_pivot_tile])
 
 func _record_sample(dt: float) -> void:
 	_drag_clock += dt

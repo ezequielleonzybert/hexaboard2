@@ -2,30 +2,41 @@
 
 [ext_resource type="Script" uid="uid://qjxs0fm6r41w" path="res://scripts/board.gd" id="1_ih08i"]
 [ext_resource type="Script" uid="uid://4w3raipsxl6y" path="res://scripts/camera.gd" id="2_w4sjf"]
+[ext_resource type="PackedScene" uid="uid://dg3wfdaswtogw" path="res://models/dome.blend" id="3_5eukr"]
+[ext_resource type="Script" uid="uid://k4hspjbr7g0v" path="res://models/dome.gd" id="4_cfiyq"]
 
 [sub_resource type="Environment" id="Environment_w4sjf"]
-background_color = Color(0.1584723, 0.15847233, 0.15847224, 1)
-glow_intensity = 0.0
-glow_bloom = 1.0
-fog_light_color = Color(0.91722053, 0.2874976, 0.42025846, 1)
-fog_light_energy = 0.01
+background_mode = 3
+background_canvas_max_layer = -10
+ambient_light_source = 2
+ambient_light_color = Color(1, 1, 1, 1)
+ambient_light_energy = 0.2
+volumetric_fog_density = 0.8209
 
-[node name="Scenario" type="Node3D" unique_id=2046134107]
+[sub_resource type="Gradient" id="Gradient_cfiyq"]
+colors = PackedColorArray(0.851769, 0.8517689, 0.85176885, 1, 0.5301137, 0.71712136, 0.7878304, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_wm03m"]
+gradient = SubResource("Gradient_cfiyq")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+
+[node name="Scenario" type="Node3D" unique_id=1249795055]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1845851811]
 environment = SubResource("Environment_w4sjf")
 
 [node name="Board" type="Node3D" parent="." unique_id=627743461]
 script = ExtResource("1_ih08i")
+radius = 32
 max_height = 3.895
 frequency = 0.056
 stone_level = 0.55
 
 [node name="OmniLight3D" type="OmniLight3D" parent="." unique_id=1227965837]
-transform = Transform3D(0.89271754, 0.29322517, 0.3421614, -0.4506167, 0.5809089, 0.67785656, 0, -0.75931805, 0.6507197, -1.43, 19.713, 5.184)
-light_energy = 16.0
-omni_range = 43.444
-omni_attenuation = 0.813
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 50, 0)
+light_energy = 50.0
+omni_range = 100.0
 
 [node name="CameraArm" type="Node3D" parent="." unique_id=1657242468]
 script = ExtResource("2_w4sjf")
@@ -33,3 +44,17 @@ pivot_follow_speed = 4.0
 
 [node name="Camera" type="Camera3D" parent="CameraArm" unique_id=193727285]
 current = true
+
+[node name="dome" parent="." unique_id=711076619 instance=ExtResource("3_5eukr")]
+script = ExtResource("4_cfiyq")
+
+[node name="Background" type="CanvasLayer" parent="." unique_id=624622560]
+layer = -10
+
+[node name="TextureRect" type="TextureRect" parent="Background" unique_id=817846000]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("GradientTexture2D_wm03m")

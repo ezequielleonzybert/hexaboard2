@@ -11,4 +11,4 @@ var type: Type
 func _init(_position:Vector3, _height:float):
 	position = _position
 	height = _height
-	top_position = Vector3(position.x,position.y + height*2,position.z)
+	top_position = Vector3(position.x, position.y + height*2, position.z)

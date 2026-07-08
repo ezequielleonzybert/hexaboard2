@@ -5,9 +5,11 @@
 
 [node name="Main" type="Node" unique_id=1720960355]
 
-[node name="Scenario" parent="." unique_id=2096456128 instance=ExtResource("1_ig7tw")]
-
 [node name="Debug" type="Label" parent="." unique_id=359286232]
-offset_right = 40.0
-offset_bottom = 23.0
+offset_left = 10.0
+offset_top = 5.0
+offset_right = 50.0
+offset_bottom = 28.0
 script = ExtResource("2_0wfyh")
+
+[node name="Scenario" parent="." unique_id=2096456128 instance=ExtResource("1_ig7tw")]
