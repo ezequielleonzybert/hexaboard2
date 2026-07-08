@@ -26,9 +26,6 @@ Inputs="*uid://b84owtsvhll12"
 
 [display]
 
-window/size/viewport_width=800
-window/size/viewport_height=600
-window/size/mode=3
 window/vsync/vsync_mode=0
 
 [input]

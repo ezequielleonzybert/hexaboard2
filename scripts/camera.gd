@@ -51,7 +51,7 @@ var _pivot_tile: int = -1
 var zoom: float
 var target_zoom: float
 var max_zoom: float
-var min_zoom: float = 5.0
+var min_zoom: float = 3.0
 #endregion
 
 func _ready() -> void:

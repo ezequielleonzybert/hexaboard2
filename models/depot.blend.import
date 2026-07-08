@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://dg3wfdaswtogw"
-path="res://.godot/imported/dome.blend-879aaa43fd5404911c758cc911cf597e.scn"
+uid="uid://b4et1oweyn41v"
+path="res://.godot/imported/depot.blend-09efce20e6f262990594bd38956e3646.scn"
 
 [deps]
 
-source_file="res://models/dome.blend"
-dest_files=["res://.godot/imported/dome.blend-879aaa43fd5404911c758cc911cf597e.scn"]
+source_file="res://models/depot.blend"
+dest_files=["res://.godot/imported/depot.blend-09efce20e6f262990594bd38956e3646.scn"]
 
 [params]
 
@@ -26,7 +26,7 @@ nodes/use_node_type_suffixes=true
 meshes/ensure_tangents=true
 meshes/generate_lods=true
 meshes/create_shadow_meshes=true
-meshes/light_baking=0
+meshes/light_baking=1
 meshes/lightmap_texel_size=0.2
 meshes/force_disable_compression=false
 skins/use_named_skins=true

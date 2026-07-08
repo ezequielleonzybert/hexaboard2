@@ -83,8 +83,6 @@ func set_tiles(mm:MultiMesh) -> void:
 		
 		set_tile_type(tile)
 		
-		#tile.height *= max_height
-		
 		var trans = Transform3D()
 		trans = trans.scaled(Vector3(1.0, tile.height, 1.0))
 		trans = trans.translated(Vector3(tile.position.x, tile.height, tile.position.z))
