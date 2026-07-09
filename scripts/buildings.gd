@@ -76,6 +76,7 @@ func _on_resize():
 func add_button(path: StringName):
 	var button = Button.new()
 	button.expand_icon = true
+	button.icon_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	button.icon = load(path)
 	buttons.append(button)
 
