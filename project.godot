@@ -15,7 +15,7 @@ warnings/check_angle_interpolation_type_conflicting=false
 [application]
 
 config/name="Hexaboard2"
-run/main_scene="uid://b3t00ghnudb5v"
+run/main_scene="uid://27f58isylw68"
 config/features=PackedStringArray("4.7", "GL Compatibility")
 boot_splash/show_image=false
 config/icon="res://icon.svg"

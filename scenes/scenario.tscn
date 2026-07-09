@@ -5,7 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://dg3wfdaswtogw" path="res://models/dome.blend" id="3_5eukr"]
 [ext_resource type="Script" uid="uid://k4hspjbr7g0v" path="res://scripts/dome.gd" id="4_cfiyq"]
 [ext_resource type="PackedScene" uid="uid://b4et1oweyn41v" path="res://models/depot.blend" id="5_wm03m"]
-[ext_resource type="Script" uid="uid://d4ma61s64urxv" path="res://models/depot.gd" id="6_s06fx"]
+[ext_resource type="Script" uid="uid://d4ma61s64urxv" path="res://scripts/depot.gd" id="6_s06fx"]
 
 [sub_resource type="Environment" id="Environment_w4sjf"]
 background_mode = 3
