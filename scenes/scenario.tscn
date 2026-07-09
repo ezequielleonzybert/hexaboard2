@@ -62,4 +62,5 @@ texture = SubResource("GradientTexture2D_wm03m")
 
 [node name="depot" parent="." unique_id=415156804 instance=ExtResource("5_wm03m")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.9845543, 0)
+visible = false
 script = ExtResource("6_s06fx")
