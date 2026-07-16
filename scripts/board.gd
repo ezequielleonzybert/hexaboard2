@@ -1,8 +1,10 @@
-#@tool
 extends Node3D
+
+@onready var camera: Camera3D = $"../CameraArm/Camera"
 
 const SQRT3: float = 1.732050807568877
 const TILE_RADIUS: float = 0.5
+const RAY_LENGTH = 1000.0
 
 #region Exports
 @export_group("Geometry")
@@ -18,13 +20,20 @@ const TILE_RADIUS: float = 0.5
 @export var color_water:= Color(.5,.7,1.0)
 #endregion
 
-#region Globals
+#region Parameters
 
 var mmi = MultiMeshInstance3D
 var colliders: Array[CollisionPolygon3D]
 var _material: ShaderMaterial
 var body: StaticBody3D
 var tiles: Array[Tile]
+
+var tile_selected: int = -1
+var tile_hovered: int = -1
+var previous_tile_hovered: int = -1
+var zoom = 1
+
+var holding_building: Node3D
 
 #endregion
 
@@ -42,10 +51,13 @@ func _ready() -> void:
 
 @warning_ignore("unused_parameter")
 func _process(delta: float) -> void:
-	var i = Inputs.tile_hovered
-	var pi = Inputs.previous_tile_hovered
+	var i = tile_hovered
+	var pi = previous_tile_hovered
 	if i != pi:
 		mmi.multimesh.mesh.material.set_shader_parameter("tile_hovered", i)
+	
+	if holding_building:
+		holding_building.position = tiles[i].top_position
 
 
 func get_multimesh() -> MultiMesh:
@@ -146,3 +158,30 @@ func set_tile_type(tile: Tile):
 	else:
 		tile.type = tile.Type.GRASS
 		tile.color = color_grass
+
+
+func _physics_process(_delta: float):	
+	if !Globals.mouse_on_UI:
+		var space_state = get_world_3d().direct_space_state
+		var mousepos = get_viewport().get_mouse_position()
+
+		var origin = camera.project_ray_origin(mousepos)
+		var end = origin + camera.project_ray_normal(mousepos) * RAY_LENGTH
+		var query = PhysicsRayQueryParameters3D.create(origin, end)
+		query.collide_with_areas = true
+
+		var result = space_state.intersect_ray(query)
+
+		previous_tile_hovered = tile_hovered
+		if result and result.collider == body:
+			tile_hovered = result.shape
+		else:
+			tile_hovered = -1
+
+
+func _unhandled_input(event):
+	if event is InputEventMouseButton and event.pressed:
+		if tile_hovered != -1 and event.button_index == MOUSE_BUTTON_RIGHT:
+			tile_selected = tile_hovered
+		elif holding_building and event.button_index == MOUSE_BUTTON_LEFT:
+			holding_building = null

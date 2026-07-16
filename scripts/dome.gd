@@ -4,5 +4,3 @@ extends Node3D
 
 func _ready() -> void:
 	scale = scale * board.TILE_RADIUS * .75
-	var tile_count = board.tiles.size()
-	position = board.tiles[tile_count/2].top_position

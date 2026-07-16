@@ -1,5 +1,7 @@
 extends Panel
 
+@onready var board: Node3D = $"../Scenario/Board"
+
 #region Parameters
 var screen_size: Vector2
 
@@ -78,6 +80,9 @@ func add_button(path: StringName):
 	button.expand_icon = true
 	button.icon_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	button.icon = load(path)
+	button.name  = path.substr(13,path.length()-4-13)
+	button.pressed.connect(_on_button_pressed.bind(button))
+
 	buttons.append(button)
 
 
@@ -85,3 +90,15 @@ func _input(event: InputEvent) -> void:
 	if event is InputEventKey and event.is_pressed() :
 		if event.keycode == KEY_TAB:
 			showing = !showing
+	if event is InputEventMouseMotion:
+		if get_global_rect().has_point(event.global_position):
+			Globals.mouse_on_UI = true
+			board.tile_hovered = -1
+		else:
+			Globals.mouse_on_UI = false
+
+
+func _on_button_pressed(button):
+	board.holding_building = get_node("../Scenario/" + button.name).duplicate(1)
+	board.holding_building.visible = true
+	board.add_child(board.holding_building)

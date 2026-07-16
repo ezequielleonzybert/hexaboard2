@@ -52,6 +52,8 @@ var zoom: float
 var target_zoom: float
 var max_zoom: float
 var min_zoom: float = 3.0
+
+var noise = AudioStreamPlayer.new()
 #endregion
 
 func _ready() -> void:
@@ -63,6 +65,12 @@ func _ready() -> void:
 	rotation = Vector3(_orbit_rotation.x, _orbit_rotation.y, 0.0)
 	pivot = board.tiles[board.tiles.size() / 2].top_position
 	global_position = pivot
+	
+	noise.stream = load("res://sounds/noise.ogg")
+	noise.autoplay = true
+	noise.play()
+	noise.volume_linear = 0
+	add_child(noise)
 
 func _process(delta: float) -> void:
 	_update_pivot()
@@ -124,8 +132,8 @@ func _brake_carry(delta: float) -> void:
 func _update_pivot() -> void:
 	# this changes the pivot to the selected tile
 	
-	if Inputs.tile_selected != _pivot_tile:
-		_pivot_tile = Inputs.tile_selected
+	if board.tile_selected != _pivot_tile:
+		_pivot_tile = board.tile_selected
 		if _pivot_tile != -1:
 			pivot = board.tiles[_pivot_tile].top_position
 
