@@ -59,8 +59,8 @@ func _on_resize():
 	margin = width / 32
 	
 	size = Vector2(width, height)
-	position_show = Vector2(screen_size.x - width, 0)
-	position_hide = Vector2(screen_size.x, 0)
+	position_show = Vector2(screen_size.x - width - margin, margin)
+	position_hide = Vector2(screen_size.x, margin)
 	
 	title.add_theme_font_size_override("font_size", width/6)
 	title.position.x = margin
