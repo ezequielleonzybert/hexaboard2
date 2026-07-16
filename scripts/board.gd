@@ -51,13 +51,21 @@ func _ready() -> void:
 
 @warning_ignore("unused_parameter")
 func _process(delta: float) -> void:
-	var i = tile_hovered
-	var pi = previous_tile_hovered
-	if i != pi:
-		mmi.multimesh.mesh.material.set_shader_parameter("tile_hovered", i)
+	get_hover_tile()
+	
+	if tile_hovered != previous_tile_hovered:
+		mmi.multimesh.mesh.material.set_shader_parameter("tile_hovered", tile_hovered)
+		if holding_building and tile_hovered != -1:
+			var sound = $"../sound_select"
+			sound.play()
+	else:
+		pass
 	
 	if holding_building:
-		holding_building.position = tiles[i].top_position
+		
+		holding_building.position = tiles[tile_hovered].top_position
+		if tile_hovered == -1: holding_building.hide()
+		else: holding_building.show()
 
 
 func get_multimesh() -> MultiMesh:
@@ -160,7 +168,17 @@ func set_tile_type(tile: Tile):
 		tile.color = color_grass
 
 
-func _physics_process(_delta: float):	
+func _unhandled_input(event):
+	if event is InputEventMouseButton and event.pressed:
+		if tile_hovered != -1 and event.button_index == MOUSE_BUTTON_RIGHT:
+			tile_selected = tile_hovered
+		elif holding_building and event.button_index == MOUSE_BUTTON_LEFT:
+			holding_building = null
+			var sound = $"../sound_build"
+			sound.play()
+
+
+func get_hover_tile():
 	if !Globals.mouse_on_UI:
 		var space_state = get_world_3d().direct_space_state
 		var mousepos = get_viewport().get_mouse_position()
@@ -175,13 +193,7 @@ func _physics_process(_delta: float):
 		previous_tile_hovered = tile_hovered
 		if result and result.collider == body:
 			tile_hovered = result.shape
-		else:
-			tile_hovered = -1
-
-
-func _unhandled_input(event):
-	if event is InputEventMouseButton and event.pressed:
-		if tile_hovered != -1 and event.button_index == MOUSE_BUTTON_RIGHT:
-			tile_selected = tile_hovered
-		elif holding_building and event.button_index == MOUSE_BUTTON_LEFT:
-			holding_building = null
+		else: tile_hovered = -1
+			
+	else:
+		tile_hovered = -1
