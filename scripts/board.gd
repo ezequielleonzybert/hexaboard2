@@ -56,7 +56,7 @@ func _process(delta: float) -> void:
 	if tile_hovered != previous_tile_hovered:
 		mmi.multimesh.mesh.material.set_shader_parameter("tile_hovered", tile_hovered)
 		if holding_building and tile_hovered != -1:
-			var sound = $"../sound_select"
+			var sound = $"../../Sounds/sound_select"
 			sound.play()
 	else:
 		pass
@@ -174,7 +174,7 @@ func _unhandled_input(event):
 			tile_selected = tile_hovered
 		elif holding_building and event.button_index == MOUSE_BUTTON_LEFT:
 			holding_building = null
-			var sound = $"../sound_build"
+			var sound = $"../../Sounds/sound_build"
 			sound.play()
 
 

@@ -6,11 +6,9 @@
 [ext_resource type="Script" uid="uid://k4hspjbr7g0v" path="res://scripts/dome.gd" id="4_cfiyq"]
 [ext_resource type="PackedScene" uid="uid://b4et1oweyn41v" path="res://models/depot.blend" id="5_wm03m"]
 [ext_resource type="Script" uid="uid://d4ma61s64urxv" path="res://scripts/depot.gd" id="6_s06fx"]
-[ext_resource type="AudioStream" uid="uid://bjff54hay3866" path="res://sounds/select.ogg" id="7_vvius"]
-[ext_resource type="AudioStream" uid="uid://b4wjkic3a0y10" path="res://sounds/build.ogg" id="8_vvius"]
 
 [sub_resource type="Gradient" id="Gradient_cfiyq"]
-colors = PackedColorArray(0.851769, 0.8517689, 0.85176885, 1, 0.5301137, 0.71712136, 0.7878304, 1)
+colors = PackedColorArray(0.71000004, 0.8308334, 1, 1, 0.39999998, 0.7, 1, 1)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_wm03m"]
 gradient = SubResource("Gradient_cfiyq")
@@ -23,6 +21,10 @@ background_canvas_max_layer = -10
 ambient_light_source = 2
 ambient_light_color = Color(1, 1, 1, 1)
 ambient_light_energy = 0.2
+fog_enabled = true
+fog_mode = 1
+fog_density = 1.0
+fog_depth_curve = 1.4
 
 [node name="Scenario" type="Node3D" unique_id=1249795055]
 
@@ -42,10 +44,11 @@ environment = SubResource("Environment_w4sjf")
 
 [node name="Board" type="Node3D" parent="." unique_id=627743461]
 script = ExtResource("1_ih08i")
-radius = 32
 max_height = 3.895
 frequency = 0.056
-stone_level = 0.55
+stone_level = 0.5
+color_grass = Color(0.46, 0.32775003, 0.1426, 1)
+color_water = Color(0, 0, 0, 1)
 
 [node name="OmniLight3D" type="OmniLight3D" parent="." unique_id=1227965837]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 50, 0)
@@ -66,10 +69,3 @@ script = ExtResource("6_s06fx")
 [node name="collector" parent="." unique_id=711076619 instance=ExtResource("3_5eukr")]
 visible = false
 script = ExtResource("4_cfiyq")
-
-[node name="sound_select" type="AudioStreamPlayer" parent="." unique_id=1770858909]
-stream = ExtResource("7_vvius")
-
-[node name="sound_build" type="AudioStreamPlayer" parent="." unique_id=658159642]
-stream = ExtResource("8_vvius")
-volume_db = -3.0

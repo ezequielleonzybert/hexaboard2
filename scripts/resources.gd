@@ -16,7 +16,7 @@ var title = Label.new()
 var grid = Control.new()
 var buttons: Array[Button]
 
-var stylebox_panel = load("res://tres/stylebox_panel.tres")
+var stylebox = load("res://tres/stylebox.tres")
 var font = load("res://fonts/Jersey10-Regular.ttf")
 
 var showing: bool = false
@@ -28,9 +28,9 @@ var position_hide: Vector2
 func _ready() -> void:
 	get_viewport().size_changed.connect(_on_resize)
 	
-	add_theme_stylebox_override("panel", stylebox_panel)
+	add_theme_stylebox_override("panel", stylebox)
 	title.add_theme_font_override("font", font)
-	title.text = "buildings"
+	title.text = "Resources"
 	add_child(title)
 	
 	add_child(grid)
@@ -43,10 +43,10 @@ func _ready() -> void:
 	
 	# needed for the viewport resizing at the begining:
 	_on_resize()
-	position.x = 9999
+	position.x = -9999
 
 
-func _process	(delta: float) -> void:
+func _process(delta: float) -> void:
 	if showing:
 		position = lerp(position, position_show, delta * 15)
 	else:
@@ -57,24 +57,23 @@ func _on_resize():
 	screen_size = get_viewport().get_visible_rect().size
 	width = screen_size.x / 4
 	height = screen_size.y / 2
-	margin = width / 28
+	margin = width / 32
 	
 	size = Vector2(width, height)
-	position_show = Vector2(screen_size.x - width - margin, margin)
-	position_hide = Vector2(screen_size.x, margin)
+	position_show = Vector2(margin, margin)
+	position_hide = Vector2(-width, margin)
 	
-	title.add_theme_font_size_override("font_size", width/8)
-	title.position.x = margin*2
-	title.position.y = margin
+	title.add_theme_font_size_override("font_size", width/6)
+	title.position.x = margin
 	var title_height = title.get_theme_font_size("font_size")
 	
 	grid.size = Vector2(width, height - title_height)
 	grid.position.x = margin
-	grid.position.y = title_height + margin*2
+	grid.position.y = title_height + margin
 	
 	for i in range(buttons.size()):
 		buttons[i].size = grid.size / 4
-		buttons[i].position.x = i * buttons[i].size.x + margin*i /2
+		buttons[i].position.x = i * buttons[i].size.x + margin * i
 	
 
 func add_button(path: StringName):
@@ -84,8 +83,6 @@ func add_button(path: StringName):
 	button.icon = load(path)
 	button.name  = path.substr(13,path.length()-4-13)
 	button.pressed.connect(_on_button_pressed.bind(button))
-	button.add_theme_stylebox_override("normal", load("res://tres/stylebox_button.tres"))
-	button.add_theme_stylebox_override('focus',load("res://tres/stylebox_button.tres"))
 
 	buttons.append(button)
 

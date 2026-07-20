@@ -27,6 +27,7 @@ Globals="*uid://clbndyn4ofxwx"
 [display]
 
 window/vsync/vsync_mode=0
+mouse_cursor/custom_image="uid://bnjojjnad3vip"
 
 [input]
 
