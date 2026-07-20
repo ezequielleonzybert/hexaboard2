@@ -6,7 +6,7 @@
 [ext_resource type="Script" uid="uid://k4hspjbr7g0v" path="res://scripts/dome.gd" id="4_cfiyq"]
 [ext_resource type="PackedScene" uid="uid://b4et1oweyn41v" path="res://models/depot.blend" id="5_wm03m"]
 [ext_resource type="Script" uid="uid://d4ma61s64urxv" path="res://scripts/depot.gd" id="6_s06fx"]
-[ext_resource type="AudioStream" uid="uid://bwu1u6uomn52i" path="res://sounds/select1.ogg" id="7_w3gp8"]
+[ext_resource type="AudioStream" uid="uid://bjff54hay3866" path="res://sounds/select.ogg" id="7_vvius"]
 [ext_resource type="AudioStream" uid="uid://b4wjkic3a0y10" path="res://sounds/build.ogg" id="8_vvius"]
 
 [sub_resource type="Gradient" id="Gradient_cfiyq"]
@@ -68,9 +68,8 @@ visible = false
 script = ExtResource("4_cfiyq")
 
 [node name="sound_select" type="AudioStreamPlayer" parent="." unique_id=1770858909]
-stream = ExtResource("7_w3gp8")
-pitch_scale = 2.58
+stream = ExtResource("7_vvius")
 
 [node name="sound_build" type="AudioStreamPlayer" parent="." unique_id=658159642]
 stream = ExtResource("8_vvius")
-volume_db = 19.623
+volume_db = -3.0

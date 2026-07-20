@@ -2,6 +2,7 @@ extends Panel
 
 @onready var board: Node3D = $"../Scenario/Board"
 
+
 #region Parameters
 var screen_size: Vector2
 
@@ -90,6 +91,8 @@ func _input(event: InputEvent) -> void:
 	if event is InputEventKey and event.is_pressed() :
 		if event.keycode == KEY_TAB:
 			showing = !showing
+			if showing: $"../sound_tab".play()
+			else: $"../sound_tab_close".play()
 	if event is InputEventMouseMotion:
 		if get_global_rect().has_point(event.global_position):
 			Globals.mouse_on_UI = true
